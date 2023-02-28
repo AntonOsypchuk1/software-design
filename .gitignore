@@ -1,4 +1,5 @@
-.idea/
 .vs/
-bin
-obj
+bin/
+obj/
+Properties/
+App.config
