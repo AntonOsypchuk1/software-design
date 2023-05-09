@@ -25,27 +25,9 @@ public abstract class LightNode
         node.Parent = this;
     }
 
-    public void ReplaceChild(LightNode node, LightNode replacement)
+    public virtual void SetParent(LightNode node)
     {
-        if (node == null)
-        {
-            throw new ArgumentNullException(nameof(node));
-        }
-
-        if (replacement == null)
-        {
-            throw new ArgumentNullException(nameof(replacement));
-        }
-
-        if (node.Parent != this)
-        {
-            throw new ArgumentException("The specified node is not a child of this node.", nameof(node));
-        }
-
-        replacement.RemoveFromParent();
-        int index = Children.IndexOf(node);
-        Children[index] = replacement;
-        replacement.Parent = this;
+        Parent = node;
     }
 
     public void RemoveChild(LightNode node)
