@@ -4,6 +4,7 @@ using Task1.LightHTML.Elements.Image.LoadingStrategy;
 using Task1.LightHTML.Elements.Image;
 using Task1.LightHTML.Styles;
 using Task1.LightHTML.Search;
+using Task1.LightHTML.Events.MyButton;
 
 namespace Task1;
 
@@ -41,6 +42,7 @@ internal static class Program
         Image();
         Dfs();
         Bfs();
+        Button();
 
         void Dfs()
         {
@@ -148,6 +150,13 @@ internal static class Program
 
             var clonePage = page.Clone();
             clonePage.Render();
+        }
+
+        void Button()
+        {
+            var button = new LightActiveElement("button", new MyButtonTemplate());
+            button.AddEventListener(new MyButtonClickListener());
+            button.FireEvent("click");
         }
     }
 }
