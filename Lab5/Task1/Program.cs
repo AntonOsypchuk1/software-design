@@ -3,6 +3,7 @@ using Task1.LightHTML.Elements;
 using Task1.LightHTML.Elements.Image.LoadingStrategy;
 using Task1.LightHTML.Elements.Image;
 using Task1.LightHTML.Styles;
+using Task1.LightHTML.Search;
 
 namespace Task1;
 
@@ -38,6 +39,56 @@ internal static class Program
         Styles();
         StartProgram();
         Image();
+        Dfs();
+        Bfs();
+
+        void Dfs()
+        {
+            // DepthFirstSearch strategy
+            var dfs = new DepthFirstSearch();
+            var predicate = new Func<LightNode, bool>(node =>
+                node is LightElementNode elementNode && elementNode.TagName == "div");
+            var result = dfs.Search(root, predicate);
+
+            if (result)
+            {
+                Console.WriteLine("Found the first <div> element!");
+            }
+            else
+            {
+                Console.WriteLine("Did not find the first <div> element.");
+            }
+
+            var matchingElements = dfs.FindAll(root, node => node.TagName == "p");
+            foreach (var element in matchingElements)
+            {
+                Console.WriteLine(element.OuterHtml);
+            }
+        }
+
+        void Bfs()
+        {
+            // BreadthFirstSearch strategy
+            var bfs = new DepthFirstSearch();
+            var predicate = new Func<LightNode, bool>(node =>
+                node is LightElementNode elementNode && elementNode.TagName == "div");
+            var result = bfs.Search(root, predicate);
+
+            if (result)
+            {
+                Console.WriteLine("Found the first <div> element!");
+            }
+            else
+            {
+                Console.WriteLine("Did not find the first <div> element.");
+            }
+
+            var matchingElements = bfs.FindAll(root, node => node.TagName == "div");
+            foreach (var element in matchingElements)
+            {
+                Console.WriteLine(element.OuterHtml);
+            }
+        }
 
         void Styles()
         {
