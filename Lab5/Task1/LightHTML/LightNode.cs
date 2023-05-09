@@ -13,7 +13,7 @@ public abstract class LightNode
 
     public virtual string InnerHtml => string.Empty;
 
-    public void AppendChild(LightNode node)
+    public virtual void AppendChild(LightNode node)
     {
         if (node == null)
         {
