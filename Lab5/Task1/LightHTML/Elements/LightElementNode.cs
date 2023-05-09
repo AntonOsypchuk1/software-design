@@ -1,16 +1,16 @@
 using System.Text;
 using System.Text.Json.Serialization.Metadata;
 
-namespace Task1.LightHTML;
+namespace Task1.LightHTML.Elements;
 
 public class LightElementNode : LightNode
 {
     public string TagName { get; }
-    
+
     public bool IsBlock { get; }
-    
+
     public bool IsSelfClosing { get; }
-    
+
     public List<string> CssClasses { get; } = new List<string>();
 
     public override string OuterHtml => IsSelfClosing

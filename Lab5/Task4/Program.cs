@@ -2,6 +2,7 @@
 
 using System.Runtime.CompilerServices;
 using Task1.LightHTML;
+using Task1.LightHTML.Elements;
 using Task4;
 
 var text = File.ReadAllLines("../../../book.txt");
