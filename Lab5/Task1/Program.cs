@@ -1,5 +1,7 @@
 ﻿using Task1.LightHTML;
 using Task1.LightHTML.Elements;
+using Task1.LightHTML.Elements.Image.LoadingStrategy;
+using Task1.LightHTML.Elements.Image;
 using Task1.LightHTML.Styles;
 
 namespace Task1;
@@ -35,6 +37,7 @@ internal static class Program
 
         Styles();
         StartProgram();
+        Image();
 
         void Styles()
         {
@@ -50,6 +53,22 @@ internal static class Program
             Console.WriteLine(div1.Styles.Color);
 
             Console.WriteLine(div1.OuterHtml);
+        }
+
+        void Image()
+        {
+            // Test cases for image loading classes
+            // Load image from the file system
+            var imageNode = new LightImageNode("../../../LightHTML/Elements/Image/src/gray.png", new LightFilesystemImageLoading());
+            var imageBytes = imageNode.LoadImage();
+            Console.WriteLine(imageBytes.ToString());
+
+            // Load image from the file system
+            string path = "https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_square.jpg";
+            var imageNode2 = new LightImageNode($"{path}", new LightNetworkImageLoading());
+            var imageBytes2 = imageNode2.LoadImage();
+            Console.WriteLine(imageBytes2.ToString());
+            // idk how to open the image in console but we can see that it reads the bytes of all the files...
         }
 
         void StartProgram()
