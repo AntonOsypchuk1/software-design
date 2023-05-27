@@ -13,28 +13,25 @@ public class GameBoard
     private void initializeBoard()
     {
         Board = new Cell[BOARD_SIZE, BOARD_SIZE];
-        for (int i = 0; i < BOARD_SIZE; i++)
+        for (int i = 0; i < BOARD_SIZE * BOARD_SIZE; i++)
         {
-            for (int j = 0; j < BOARD_SIZE; j++)
-            {
-                Board[i, j] = new Cell();
-            }
+            int row = i / BOARD_SIZE;
+            int column = i % BOARD_SIZE;
+            var c = Char.Parse((i + 1).ToString());
+            Board[row, column] = new Cell(c);
+
         }
     }
 
     public void printBoard()
     {
-        const int ASCII_CODE_0 = 48;
         int fieldNumber = 1;
         Console.WriteLine("\n");
         for (int i = 0; i < BOARD_SIZE; i++)
         {
             for (int j = 0; j < BOARD_SIZE; j++)
             {
-                if (Board[i, j].isEmpty())
-                    Console.Write((char)(ASCII_CODE_0 + fieldNumber));
-                else
-                    Console.Write((char)(Board[i, j].getFieldState()));
+                Console.Write(Board[i, j].CellChar);
                 fieldNumber++;
 
                 if (j < BOARD_SIZE - 1)
@@ -53,7 +50,8 @@ public class GameBoard
         int horizontalX = (fieldNumber - 1) % 3;
         if (!Board[verticalY, horizontalX].isEmpty())
         {
-            Board[verticalY, horizontalX] = new Cell();
+            var c = Char.Parse(fieldNumber.ToString());
+            Board[verticalY, horizontalX] = new Cell(c);
         }
         else
         {

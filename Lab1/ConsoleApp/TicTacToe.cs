@@ -9,7 +9,7 @@ class TicTacToe
     static Player playerX = new Player('X');
     static Player playerO = new Player('O');
     static Player currentPlayer = playerX;
-    static List<int> previousField;
+    static List<int> previousField = new List<int>();
 
 
     public TicTacToe() => Play();
@@ -84,8 +84,9 @@ class TicTacToe
                 }
                 currentPlayer = ChangeCurrentPlayer(currentPlayer, playerX, playerO);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.StackTrace);
                 Console.WriteLine("Invalid Input. Please enter number between 1-9!");
                 Console.ReadLine();
                 Console.Clear();
@@ -128,8 +129,7 @@ class TicTacToe
 
     private static void SaveGame()
     {
-        string fileName = "C:\\Users\\user\\Desktop\\Лабы\\2 course\\2 term\\Конструювання ПЗ\\TicTacToe\\ConsoleApp\\saved-game.txt";
-        const int ASCII_CODE_0 = 48;
+        string fileName = "saved-game.txt";
         int fieldNumber = 1;
         
         using (StreamWriter writer = new StreamWriter(fileName))
@@ -143,10 +143,7 @@ class TicTacToe
                 {
                     for (int j = 0; j < 3; j++)
                     {
-                        if (gameBoard.Board[i, j].isEmpty())
-                            writer.Write((char)(ASCII_CODE_0 + fieldNumber));
-                        else
-                            writer.Write((char)(gameBoard.Board[i, j].getFieldState()));
+                        writer.Write(gameBoard.Board[i, j].CellChar);
                         fieldNumber++;
                     }
                 }
@@ -163,7 +160,7 @@ class TicTacToe
 
     private static void LoadGame()
     {
-        string fileName = "C:\\Users\\user\\Desktop\\Лабы\\2 course\\2 term\\Конструювання ПЗ\\TicTacToe\\ConsoleApp\\saved-game.txt";
+        string fileName = "saved-game.txt";
         if (!File.Exists(fileName))
         {
             Console.WriteLine("No saved game found.\n");
