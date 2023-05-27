@@ -12,7 +12,11 @@ class TicTacToe
     static List<int> previousField = new List<int>();
 
 
-    public TicTacToe() => Play();
+    public TicTacToe()
+    {
+        Welcome();
+        Play();
+    }
 
     private static void Welcome()
     {
@@ -26,8 +30,6 @@ class TicTacToe
 
     public static void Play()
     {
-        Welcome();
-
         Console.WriteLine("Let`s play Tic Tac Toe!\n");
         Console.WriteLine("Player 1: {0} [{1}]", playerX.getSign(), playerX.getWins());
         Console.WriteLine("Player 2: {0} [{1}]", playerO.getSign(), playerO.getWins());
@@ -84,9 +86,8 @@ class TicTacToe
                 }
                 currentPlayer = ChangeCurrentPlayer(currentPlayer, playerX, playerO);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Console.WriteLine(ex.StackTrace);
                 Console.WriteLine("Invalid Input. Please enter number between 1-9!");
                 Console.ReadLine();
                 Console.Clear();
@@ -117,21 +118,21 @@ class TicTacToe
                 }
                 return;
             }
-        } 
-        catch(Exception)
+        }
+        catch (Exception)
         {
             Console.WriteLine("Invalid Input. Please enter only letter 'y' or 'n'.");
             Console.ReadLine();
             Console.Clear();
         }
-        
+
     }
 
     private static void SaveGame()
     {
         string fileName = "saved-game.txt";
         int fieldNumber = 1;
-        
+
         using (StreamWriter writer = new StreamWriter(fileName))
         {
             try
@@ -154,7 +155,7 @@ class TicTacToe
                 Console.WriteLine(e.Message);
             }
         }
-        
+
         Console.WriteLine("Game saved to file.");
     }
 
