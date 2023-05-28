@@ -59,7 +59,7 @@ public class GameBoard
         }
     }
 
-    public void putMark(Player player, int fieldNumber)
+    public bool putMark(Player player, int fieldNumber)
     {
 
         int verticalY = (fieldNumber - 1) / 3;
@@ -67,13 +67,10 @@ public class GameBoard
         if (Board[verticalY, horizontalX].isEmpty())
         {
             Board[verticalY, horizontalX].markField(player);
+            return true;
         }
-        else
-        {
-            Console.WriteLine("This place is taken. Select the field again: ");
-            string key = Console.ReadLine();
-            putMark(player, player.takeTurn(key));
-        }
+        return false;
+        
     }
 
     public void clearBoard()

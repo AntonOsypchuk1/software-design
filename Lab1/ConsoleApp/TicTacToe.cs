@@ -1,15 +1,16 @@
-﻿using System.Numerics;
+﻿using ConsoleApp;
+using System.Numerics;
 using System.Security;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
 class TicTacToe
 {
-    static GameBoard gameBoard = new GameBoard();
+    static IBoard gameBoard = new AlphabetGameBoard();
     static Player playerX = new Player('X');
     static Player playerO = new Player('O');
     static Player currentPlayer = playerX;
-    static List<int> previousField = new List<int>();
+    static List<char> previousField = new List<char>();
 
 
     public TicTacToe()
@@ -46,7 +47,7 @@ class TicTacToe
             Console.WriteLine("Player: {0} Enter the field in which you want to put the character: ", currentPlayer.getSign());
             try
             {
-                string key = Console.ReadLine();
+                string key = Console.ReadLine().ToLower();
                 if (key == "s")
                 {
                     Console.Clear();
@@ -60,17 +61,19 @@ class TicTacToe
                     currentPlayer = ChangeCurrentPlayer(currentPlayer, playerX, playerO);
                     continue;
                 }
-                else
-                {
-                    int fieldNumber = int.Parse(key);
-                    previousField.Add(fieldNumber);
-                    Console.WriteLine(fieldNumber);
-                }
 
-                gameBoard.putMark(currentPlayer, playerX.takeTurn(key));
+                char fieldChar = Char.Parse(key);
+                previousField.Add(fieldChar);
+                if (!gameBoard.putMark(currentPlayer, fieldChar))
+                {
+                    Console.WriteLine("Cell is already occupied");
+                    Console.ReadLine();
+                    Console.Clear();
+                    continue;
+                }
                 gameBoard.clearBoard();
                 moveCounter++;
-                if (currentPlayer.checkWin(gameBoard))
+                if (currentPlayer.checkWin(gameBoard.getBoard()))
                 {
                     Console.WriteLine("Player: {0} wins!", currentPlayer.getSign());
                     gameBoard.printBoard();
@@ -88,7 +91,7 @@ class TicTacToe
             }
             catch (Exception)
             {
-                Console.WriteLine("Invalid Input. Please enter number between 1-9!");
+                Console.WriteLine("Invalid Input");
                 Console.ReadLine();
                 Console.Clear();
             }
@@ -104,7 +107,7 @@ class TicTacToe
             if (flag == "y")
             {
                 Console.Clear();
-                gameBoard = new GameBoard();
+                gameBoard = new AlphabetGameBoard();
                 currentPlayer.incrementWins();
                 currentPlayer = ChangeCurrentPlayer(currentPlayer, playerX, playerO);
                 Play();
@@ -144,7 +147,7 @@ class TicTacToe
                 {
                     for (int j = 0; j < 3; j++)
                     {
-                        writer.Write(gameBoard.Board[i, j].CellChar);
+                        writer.Write(gameBoard.getBoard().Board[i, j].CellChar);
                         fieldNumber++;
                     }
                 }
@@ -175,14 +178,7 @@ class TicTacToe
                 playerX.setWins(int.Parse(reader.ReadLine()));
                 playerO.setWins(int.Parse(reader.ReadLine()));
                 string marks = reader.ReadLine();
-                for (int i = 0; i < 3; i++)
-                {
-                    for (int j = 0; j < 3; j++)
-                    {
-                        if (marks[j + i * 3] == 'X' || marks[j + i * 3] == 'O')
-                            gameBoard.putMark(new Player(marks[j + i * 3]), j + i * 3 + 1);
-                    }
-                }
+                gameBoard.loadBoard(marks);
 
             }
             catch (Exception e)
