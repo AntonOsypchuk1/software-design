@@ -1,18 +1,23 @@
-﻿using System.Numerics;
+﻿using ConsoleApp;
+using System.Numerics;
 using System.Security;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
 class TicTacToe
 {
-    static GameBoard gameBoard = new GameBoard();
+    static IBoard gameBoard = new AlphabetGameBoard();
     static Player playerX = new Player('X');
     static Player playerO = new Player('O');
     static Player currentPlayer = playerX;
-    static List<int> previousField;
+    static List<char> previousField = new List<char>();
 
 
-    public TicTacToe() => Play();
+    public TicTacToe()
+    {
+        Welcome();
+        Play();
+    }
 
     private static void Welcome()
     {
@@ -26,8 +31,6 @@ class TicTacToe
 
     public static void Play()
     {
-        Welcome();
-
         Console.WriteLine("Let`s play Tic Tac Toe!\n");
         Console.WriteLine("Player 1: {0} [{1}]", playerX.getSign(), playerX.getWins());
         Console.WriteLine("Player 2: {0} [{1}]", playerO.getSign(), playerO.getWins());
@@ -44,7 +47,7 @@ class TicTacToe
             Console.WriteLine("Player: {0} Enter the field in which you want to put the character: ", currentPlayer.getSign());
             try
             {
-                string key = Console.ReadLine();
+                string key = Console.ReadLine().ToLower();
                 if (key == "s")
                 {
                     Console.Clear();
@@ -58,17 +61,19 @@ class TicTacToe
                     currentPlayer = ChangeCurrentPlayer(currentPlayer, playerX, playerO);
                     continue;
                 }
-                else
-                {
-                    int fieldNumber = int.Parse(key);
-                    previousField.Add(fieldNumber);
-                    Console.WriteLine(fieldNumber);
-                }
 
-                gameBoard.putMark(currentPlayer, playerX.takeTurn(key));
+                char fieldChar = Char.Parse(key);
+                previousField.Add(fieldChar);
+                if (!gameBoard.putMark(currentPlayer, fieldChar))
+                {
+                    Console.WriteLine("Cell is already occupied");
+                    Console.ReadLine();
+                    Console.Clear();
+                    continue;
+                }
                 gameBoard.clearBoard();
                 moveCounter++;
-                if (currentPlayer.checkWin(gameBoard))
+                if (currentPlayer.checkWin(gameBoard.getBoard()))
                 {
                     Console.WriteLine("Player: {0} wins!", currentPlayer.getSign());
                     gameBoard.printBoard();
@@ -86,7 +91,7 @@ class TicTacToe
             }
             catch (Exception)
             {
-                Console.WriteLine("Invalid Input. Please enter number between 1-9!");
+                Console.WriteLine("Invalid Input");
                 Console.ReadLine();
                 Console.Clear();
             }
@@ -102,7 +107,7 @@ class TicTacToe
             if (flag == "y")
             {
                 Console.Clear();
-                gameBoard = new GameBoard();
+                gameBoard = new AlphabetGameBoard();
                 currentPlayer.incrementWins();
                 currentPlayer = ChangeCurrentPlayer(currentPlayer, playerX, playerO);
                 Play();
@@ -116,22 +121,21 @@ class TicTacToe
                 }
                 return;
             }
-        } 
-        catch(Exception)
+        }
+        catch (Exception)
         {
             Console.WriteLine("Invalid Input. Please enter only letter 'y' or 'n'.");
             Console.ReadLine();
             Console.Clear();
         }
-        
+
     }
 
     private static void SaveGame()
     {
-        string fileName = "C:\\Users\\user\\Desktop\\Лабы\\2 course\\2 term\\Конструювання ПЗ\\TicTacToe\\ConsoleApp\\saved-game.txt";
-        const int ASCII_CODE_0 = 48;
+        string fileName = "saved-game.txt";
         int fieldNumber = 1;
-        
+
         using (StreamWriter writer = new StreamWriter(fileName))
         {
             try
@@ -143,10 +147,7 @@ class TicTacToe
                 {
                     for (int j = 0; j < 3; j++)
                     {
-                        if (gameBoard.Board[i, j].isEmpty())
-                            writer.Write((char)(ASCII_CODE_0 + fieldNumber));
-                        else
-                            writer.Write((char)(gameBoard.Board[i, j].getFieldState()));
+                        writer.Write(gameBoard.getBoard().Board[i, j].CellChar);
                         fieldNumber++;
                     }
                 }
@@ -157,13 +158,13 @@ class TicTacToe
                 Console.WriteLine(e.Message);
             }
         }
-        
+
         Console.WriteLine("Game saved to file.");
     }
 
     private static void LoadGame()
     {
-        string fileName = "C:\\Users\\user\\Desktop\\Лабы\\2 course\\2 term\\Конструювання ПЗ\\TicTacToe\\ConsoleApp\\saved-game.txt";
+        string fileName = "saved-game.txt";
         if (!File.Exists(fileName))
         {
             Console.WriteLine("No saved game found.\n");
@@ -177,14 +178,7 @@ class TicTacToe
                 playerX.setWins(int.Parse(reader.ReadLine()));
                 playerO.setWins(int.Parse(reader.ReadLine()));
                 string marks = reader.ReadLine();
-                for (int i = 0; i < 3; i++)
-                {
-                    for (int j = 0; j < 3; j++)
-                    {
-                        if (marks[j + i * 3] == 'X' || marks[j + i * 3] == 'O')
-                            gameBoard.putMark(new Player(marks[j + i * 3]), j + i * 3 + 1);
-                    }
-                }
+                gameBoard.loadBoard(marks);
 
             }
             catch (Exception e)

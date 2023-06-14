@@ -1,10 +1,11 @@
 ﻿public class Cell
 {
     FIELD fieldState = FIELD.FLD_EMPTY;
-
-    public Cell()
+    public Char CellChar;
+    public Cell(char cellChar)
     {
         fieldState = FIELD.FLD_EMPTY;
+        CellChar = cellChar;
     }
     public FIELD getFieldState()
     {
@@ -21,6 +22,7 @@
     {
         if (isEmpty())
         {
+            CellChar = player.getSign();
             if (player.getSign() == 'X')
                 fieldState = FIELD.FLD_X;
             else

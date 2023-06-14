@@ -8,23 +8,23 @@
     "net6.0": []
   },
   "packageFolders": {
-    "C:\\Users\\user\\.nuget\\packages\\": {},
+    "C:\\Users\\juriy\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\user\\Desktop\\Лабы\\2 course\\2 term\\Конструювання ПЗ\\TicTacToe\\ConsoleApp\\ConsoleApp.csproj",
+      "projectUniqueName": "C:\\Users\\juriy\\OneDrive\\Рабочий стол\\anton\\Lab1\\ConsoleApp\\ConsoleApp.csproj",
       "projectName": "ConsoleApp",
-      "projectPath": "C:\\Users\\user\\Desktop\\Лабы\\2 course\\2 term\\Конструювання ПЗ\\TicTacToe\\ConsoleApp\\ConsoleApp.csproj",
-      "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\user\\Desktop\\Лабы\\2 course\\2 term\\Конструювання ПЗ\\TicTacToe\\ConsoleApp\\obj\\",
+      "projectPath": "C:\\Users\\juriy\\OneDrive\\Рабочий стол\\anton\\Lab1\\ConsoleApp\\ConsoleApp.csproj",
+      "packagesPath": "C:\\Users\\juriy\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\juriy\\OneDrive\\Рабочий стол\\anton\\Lab1\\ConsoleApp\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\juriy\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -66,7 +66,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
       }
     }
   }
